@@ -15,3 +15,4 @@ gem "bootsnap", require: false
 
 gem 'devise'
 gem 'doorkeeper'
+gem 'waterdrop'
