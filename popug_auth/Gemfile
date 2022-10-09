@@ -14,3 +14,4 @@ gem "jbuilder"
 gem "bootsnap", require: false
 
 gem 'devise'
+gem 'doorkeeper'
