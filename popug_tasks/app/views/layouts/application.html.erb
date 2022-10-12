@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>PopugTasks</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <header>
+      <% if current_account %>
+        <%= current_account.email %>
+      <% else %>
+        <%= button_to 'Sign in with Auth server', account_popug_auth_omniauth_authorize_path, method: :post %>
+      <% end %>
+    </header>
+    
+    <%= yield %>
+  </body>
+</html>

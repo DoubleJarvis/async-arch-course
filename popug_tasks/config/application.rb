@@ -6,7 +6,7 @@ require "rails/all"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-module PopugAuth
+module PopugTasks
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
@@ -18,5 +18,6 @@ module PopugAuth
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("app/lib")
+    config.autoload_paths << Rails.root.join("app/lib")
   end
 end
