@@ -17,6 +17,12 @@
       <% else %>
         <%= button_to 'Sign in with Auth server', account_popug_auth_omniauth_authorize_path, method: :post %>
       <% end %>
+
+      <% flash.each do |type, msg| %>
+        <div>
+          <%= msg %>
+        </div>
+      <% end %>
     </header>
     
     <%= yield %>

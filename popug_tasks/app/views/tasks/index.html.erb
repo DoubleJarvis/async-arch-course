@@ -1,1 +1,24 @@
-Hello from tasks index
+<% if current_account %>
+
+  Create task: 
+  <%= form_for Task.new do |f| %>
+    <%= f.label :description, "Description:" %>
+    <%= f.text_field :description %>
+    <%= f.submit "Create" %>
+  <% end %>
+  Tasks:
+  <ul>
+    <% @tasks.each do |task| %>
+      <li>
+        <%= task.description %> 
+        / <%= task.account.email %> 
+        / <%= task.cost %> 
+        / + <%= task.reward %>
+        <% if current_account == task.account %>
+          / <%= button_to "Finish", finish_task_path(task.id) %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+
+<% end %>

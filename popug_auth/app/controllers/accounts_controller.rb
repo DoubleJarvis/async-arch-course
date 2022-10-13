@@ -3,25 +3,19 @@ class AccountsController < ApplicationController
 
   before_action :authenticate_account!, only: [:index]
 
-  # GET /accounts
-  # GET /accounts.json
   def index
     @accounts = Account.all
   end
 
-  # GET /accounts/current.json
   def current
     respond_to do |format|
       format.json  { render :json => current_account }
     end
   end
 
-  # GET /accounts/1/edit
   def edit
   end
 
-  # PATCH/PUT /accounts/1
-  # PATCH/PUT /accounts/1.json
   def update
     respond_to do |format|
       if @account.update(account_params)
@@ -46,11 +40,7 @@ class AccountsController < ApplicationController
       end
     end
   end
-
-  # DELETE /accounts/1
-  # DELETE /accounts/1.json
-  #
-  # in DELETE action, CUD event
+  
   def destroy
     @account.destroy
 
