@@ -3,7 +3,7 @@ Doorkeeper.configure do
   orm :active_record
 
   resource_owner_authenticator do
-    Account.find_by(id: session['warden.user.account.key'].first.first) || redirect_to(new_account_session_path)
+    Account.find_by(id: session['warden.user.account.key']&.first&.first) || redirect_to(new_account_session_path)
   end
 
   admin_authenticator do
