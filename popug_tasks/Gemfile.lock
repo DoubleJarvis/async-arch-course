@@ -84,6 +84,7 @@ GEM
       faraday-net_http (>= 2.0, < 3.1)
       ruby2_keywords (>= 0.0.4)
     faraday-net_http (3.0.1)
+    ffi (1.15.5)
     globalid (1.0.0)
       activesupport (>= 5.0)
     hashie (5.0.0)
@@ -96,6 +97,8 @@ GEM
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
     jwt (2.5.0)
+    karafka-core (2.0.2)
+      concurrent-ruby (>= 1.1)
     loofah (2.19.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -104,6 +107,7 @@ GEM
     marcel (1.0.2)
     method_source (1.0.0)
     mini_mime (1.1.2)
+    mini_portile2 (2.8.0)
     minitest (5.16.3)
     msgpack (1.6.0)
     multi_xml (0.6.0)
@@ -175,6 +179,10 @@ GEM
       thor (~> 1.0)
       zeitwerk (~> 2.5)
     rake (13.0.6)
+    rdkafka (0.12.0)
+      ffi (~> 1.15)
+      mini_portile2 (~> 2.6)
+      rake (> 12)
     responders (3.0.1)
       actionpack (>= 5.0)
       railties (>= 5.0)
@@ -198,6 +206,10 @@ GEM
     version_gem (1.1.1)
     warden (1.2.9)
       rack (>= 2.0.9)
+    waterdrop (2.4.2)
+      karafka-core (>= 2.0.2, < 3.0.0)
+      rdkafka (>= 0.10)
+      zeitwerk (~> 2.3)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -220,6 +232,7 @@ DEPENDENCIES
   rails (~> 7.0.4)
   sprockets-rails
   stimulus-rails
+  waterdrop
 
 RUBY VERSION
    ruby 3.1.0p0

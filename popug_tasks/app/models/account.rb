@@ -11,6 +11,10 @@ class Account < ApplicationRecord
   enum role: ROLES
 
   has_many :tasks
+
+  def administrative_role?
+    admin? || manager?
+  end
   
   def self.random
     reorder('random()').limit(1).first

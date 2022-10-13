@@ -20,5 +20,8 @@
       </li>
     <% end %>
   </ul>
+  <% if current_account.administrative_role? %>
+    <%= button_to "Reassign unfinished tasks", reassign_tasks_path %>
+  <% end %>
 
 <% end %>

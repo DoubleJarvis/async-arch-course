@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   resources :tasks, only: %i[create index] do
     post :finish, on: :member
 
-    get :reassign, on: :collection
+    post :reassign, on: :collection
   end
 
   root to: 'tasks#index'

@@ -69,7 +69,7 @@ class AccountsController < ApplicationController
       event_id: SecureRandom.uuid,
       event_version: 1,
       event_time: Time.now.to_s,
-      producer: 'auth_service',
+      producer: 'popug_auth',
     }
   end
 

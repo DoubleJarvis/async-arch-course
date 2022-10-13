@@ -8,4 +8,8 @@ class Task < ApplicationRecord
   def reassign
     update(account: Account.employee.random)
   end
+
+  def event_data
+    as_json(only: %i[status description cost reward]).merge(account_public_id: account.public_id)
+  end
 end
