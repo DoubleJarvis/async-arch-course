@@ -21,7 +21,7 @@ class TasksController < ApplicationController
         data: @task.event_data
       }
 
-      KAFKA_PRODUCER.produce_sync(payload: event, topic: 'tasks-stream')
+      KAFKA_PRODUCER.produce_sync(payload: event.to_json, topic: 'tasks-stream')
     else
       flash.alert = "Task not created #{@task.errors.full_messages.to_sentence}"
     end
@@ -40,7 +40,7 @@ class TasksController < ApplicationController
       data: { id: @task.public_id }
     }
 
-    KAFKA_PRODUCER.produce_sync(payload: event, topic: 'tasks')
+    KAFKA_PRODUCER.produce_sync(payload: event.to_json, topic: 'tasks')
 
     redirect_to tasks_path
   end
@@ -57,7 +57,7 @@ class TasksController < ApplicationController
         data: { public_id: task.public_id, account_public_id: task.account.public_id }
       }
   
-      KAFKA_PRODUCER.produce_sync(payload: event, topic: 'tasks')
+      KAFKA_PRODUCER.produce_sync(payload: event.to_json, topic: 'tasks')
     end
 
     flash.notice = "Unfinished tasks reassigned"

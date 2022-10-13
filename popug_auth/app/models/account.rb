@@ -31,7 +31,7 @@ class Account < ApplicationRecord
     }
 
     # CUD: AccountCreated
-    KAFKA_PRODUCER.produce_sync(payload: event, topic: 'accounts-stream')
+    KAFKA_PRODUCER.produce_sync(payload: event.to_json, topic: 'accounts-stream')
   end
 
   def event_data
