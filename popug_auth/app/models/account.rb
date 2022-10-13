@@ -35,6 +35,7 @@ class Account < ApplicationRecord
   end
 
   def event_data
-    self.as_json(only: %i[public_id email role])
+    # Reload because public_id is not being filled on AR object automatically 
+    reload.as_json(only: %i[public_id email role])
   end
 end
