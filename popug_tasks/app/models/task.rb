@@ -10,6 +10,7 @@ class Task < ApplicationRecord
   end
 
   def event_data
-    as_json(only: %i[status description cost reward]).merge(account_public_id: account.public_id)
+    as_json(only: %i[public_id status description cost reward])
+      .merge(account_public_id: account.public_id)
   end
 end

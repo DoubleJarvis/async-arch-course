@@ -11,9 +11,9 @@ class Account < ApplicationRecord
   enum role: ROLES
 
   has_many :access_grants,
-  class_name: 'Doorkeeper::AccessGrant',
-  foreign_key: :resource_owner_id,
-  dependent: :delete_all
+    class_name: 'Doorkeeper::AccessGrant',
+    foreign_key: :resource_owner_id,
+    dependent: :delete_all
 
   has_many :access_tokens,
     class_name: 'Doorkeeper::AccessToken',
@@ -30,8 +30,12 @@ class Account < ApplicationRecord
       data: event_data
     }
 
-    # CUD: AccountCreated
-    KAFKA_PRODUCER.produce_sync(payload: event.to_json, topic: 'accounts-stream')
+    result = SchemaRegistry.validate_event(event, 'accounts.created', version: 1)
+    if result.success?
+      KAFKA_PRODUCER.produce_sync(payload: event.to_json, topic: 'accounts-stream')
+    else
+      # Sentry.notify("Cannot produce AccountCreated #{result.failure.to_json}")
+    end
   end
 
   def event_data

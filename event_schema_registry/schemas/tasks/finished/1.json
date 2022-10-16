@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
 
-  "title": "Accounts.Created.v1",
-  "description": "json schema for CUD account events (version 1)",
+  "title": "Tasks.Finished.v1",
+  "description": "json schema for CUD task events (version 1)",
 
   "definitions": {
     "event_data": {
@@ -10,18 +10,10 @@
       "properties": {
         "public_id": {
           "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "role": {
-          "type": "string"
         }
       },
       "required": [
-        "public_id",
-        "email",
-        "role"
+        "public_id"
       ]
     }
   },
@@ -31,7 +23,7 @@
   "properties": {
     "event_id":      { "type": "string" },
     "event_version": { "enum": [1] },
-    "event_name":    { "enum": ["AccountCreated"] },
+    "event_name":    { "enum": ["TaskFinished"] },
     "event_time":    { "type": "string" },
     "producer":      { "type": "string" },
 
@@ -47,4 +39,3 @@
     "data"
   ]
 }
-
