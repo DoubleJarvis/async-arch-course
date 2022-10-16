@@ -8,7 +8,6 @@ gem "sprockets-rails"
 gem "pg", "~> 1.1"
 gem "puma", "~> 5.0"
 gem "importmap-rails"
-# gem "turbo-rails"
 gem "stimulus-rails"
 gem "jbuilder"
 gem 'bootsnap', require: false
@@ -22,5 +21,6 @@ gem 'devise'
 # Events
 gem 'waterdrop'
 gem 'karafka'
+gem 'schema_registry', path: '../event_schema_registry/ruby/'
 
 gem 'pry'

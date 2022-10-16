@@ -21,7 +21,12 @@ class TasksController < ApplicationController
         data: @task.event_data
       }
 
-      KAFKA_PRODUCER.produce_sync(payload: event.to_json, topic: 'tasks-stream')
+      result = SchemaRegistry.validate_event(event, 'tasks.created', version: 1)
+      if result.success?
+        KAFKA_PRODUCER.produce_sync(payload: event.to_json, topic: 'tasks-stream')
+      else
+        # Sentry.notify("Cannot produce AccountCreated #{result.failure.to_json}")
+      end
     else
       flash.alert = "Task not created #{@task.errors.full_messages.to_sentence}"
     end
@@ -37,10 +42,15 @@ class TasksController < ApplicationController
     event = {
       **shared_event_data,
       event_name: 'TaskFinished',
-      data: { id: @task.public_id }
+      data: { public_id: @task.public_id }
     }
 
-    KAFKA_PRODUCER.produce_sync(payload: event.to_json, topic: 'tasks')
+    result = SchemaRegistry.validate_event(event, 'tasks.finished', version: 1)
+    if result.success?
+      KAFKA_PRODUCER.produce_sync(payload: event.to_json, topic: 'tasks')
+    else
+      # Sentry.notify("Cannot produce AccountCreated #{result.failure.to_json}")
+    end
 
     redirect_to tasks_path
   end
@@ -56,8 +66,15 @@ class TasksController < ApplicationController
         event_name: 'TaskAssigned',
         data: { public_id: task.public_id, account_public_id: task.account.public_id }
       }
+
+      result = SchemaRegistry.validate_event(event, 'tasks.assigned', version: 1)
+
+      if result.success?
+        KAFKA_PRODUCER.produce_sync(payload: event.to_json, topic: 'tasks')
+      else
+        # Sentry.notify("Cannot produce AccountCreated #{result.failure.to_json}")
+      end
   
-      KAFKA_PRODUCER.produce_sync(payload: event.to_json, topic: 'tasks')
     end
 
     flash.notice = "Unfinished tasks reassigned"

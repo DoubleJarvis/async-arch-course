@@ -19,17 +19,18 @@ class AccountsController < ApplicationController
   def update
     respond_to do |format|
       if @account.update(account_params)
-        # ----------------------------- produce event -----------------------
         event = {
           **account_event_data,
           event_name: 'AccountUpdated',
           data: @account.event_data
         }
-        # result = SchemaRegistry.validate_event(event, 'accounts.updated', version: 1)
+        result = SchemaRegistry.validate_event(event, 'accounts.updated', version: 1)
 
-        # CUD: AccountUpdated
-        KAFKA_PRODUCER.produce_sync(payload: event.to_json, topic: 'accounts-stream')
-        # --------------------------------------------------------------------
+        if result.success?
+          KAFKA_PRODUCER.produce_sync(payload: event.to_json, topic: 'accounts-stream')
+        else
+          # Sentry.notify("Cannot produce AccountCreated #{result.failure.to_json}")
+        end
 
 
         format.html { redirect_to root_path, notice: 'Account was successfully updated.' }
@@ -50,11 +51,13 @@ class AccountsController < ApplicationController
       event_name: 'AccountDeleted',
       data: { public_id: @account.public_id }
     }
-    # result = SchemaRegistry.validate_event(event, 'accounts.deleted', version: 1)
-
-    # CUD: AccountDeleted
-    KAFKA_PRODUCER.produce_sync(payload: event.to_json, topic: 'accounts-stream')
-    # --------------------------------------------------------------------
+    result = SchemaRegistry.validate_event(event, 'accounts.deleted', version: 1)
+    
+    if result.success?
+      KAFKA_PRODUCER.produce_sync(payload: event.to_json, topic: 'accounts-stream')
+    else
+      # Sentry.notify("Cannot produce AccountCreated #{result.failure.to_json}")
+    end
 
     respond_to do |format|
       format.html { redirect_to root_path, notice: 'Account was successfully destroyed.' }
